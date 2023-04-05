@@ -64,7 +64,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ onChange, initialValue }) => {
         editorDidMount={onEditorDidMount}
         value={initialValue}
         theme="dark"
-        height="500px"
+        height="100%"
         language='javascript'
         options={{
           wordWrap: 'on',
