@@ -2,27 +2,24 @@ import { useState, useEffect } from 'react';
 import CodeEditor from './code-editor';
 import Preview from './preview';
 import Resizable from './resizable';
-import { cleanup } from '@testing-library/react';
 import bundle from '../bundler';
 
 const CodeCell = () => {
   const [input, setInput] = useState('');
+  const [err, setErr] = useState('');
   const [code, setCode] = useState('');
 
   useEffect(() => {
     const timer = setTimeout(async () => {
       const output = await bundle(input);
-      setCode(output);
+      setCode(output.code);
+      setErr(output.err);
     }, 750);
 
     return () => {
       clearTimeout(timer);
     }
   }, [input]);
-  // const onClick = async () => {
-  //   const output = await bundle(input);
-  //   setCode(output);
-  // };
 
   return (
     <Resizable direction='vertical'>
@@ -32,7 +29,7 @@ const CodeCell = () => {
             initialValue="console.log(123);"
             onChange={value => setInput(value)} />
         </Resizable>
-        <Preview code={code} />
+        <Preview code={code} err={err} />
       </div>
     </Resizable>
   );
